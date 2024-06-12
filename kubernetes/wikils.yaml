@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wikils
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: wikils
+  template:
+    metadata:
+      labels:
+        app: wikils
+    spec:
+      containers:
+      - name: wikils
+        image: requarks/wiki:2.5
+        ports:
+        - containerPort: 3000
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wikils
+spec:
+  selector:
+    app: wikils
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 3000

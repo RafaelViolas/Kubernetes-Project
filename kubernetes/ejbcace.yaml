@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ejbcace
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ejbcace
+  template:
+    metadata:
+      labels:
+        app: ejbcace
+    spec:
+      containers:
+      - name: ejbcace
+        image: keyfactor/ejbca-ce:latest
+        ports:
+        - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ejbcace
+spec:
+  selector:
+    app: ejbcace
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
