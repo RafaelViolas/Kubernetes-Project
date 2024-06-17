@@ -1,0 +1,1 @@
+A project on kubernetes where a proxy redirects you to web pages of the aplications: ejbca-ce, one time secret, plik and wiki-ls
