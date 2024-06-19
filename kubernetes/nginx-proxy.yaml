@@ -21,10 +21,16 @@ spec:
           - name: nginx-config-volume
             mountPath: /etc/nginx/nginx.conf
             subPath: nginx.conf
+          - name: nginx-html-volume
+            mountPath: /usr/share/nginx/html/index.html
+            subPath: index.html
       volumes:
         - name: nginx-config-volume
           configMap:
             name: nginx-config
+        - name: nginx-html-volume
+          configMap:
+            name: nginx-html
 
 ---
 apiVersion: v1
@@ -42,6 +48,32 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-html
+data:
+  index.html: |
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>NGINX Proxy Services</title>
+    </head>
+    <body>
+    <h1>Welcome to NGINX Proxy</h1>
+    <p>Click on the buttons below to access the services:</p>
+    <button onclick="window.location.href='/onetimesecret';">One-Time Secret</button>
+    <button onclick="window.location.href='/wikils';">Wiki LS</button>
+    <button onclick="window.location.href='/plik';">Plik</button>
+    <button onclick="window.location.href='/ejbca';">EJBCA-CE</button>
+    </body>
+    </html>
+
 
 ---
 
@@ -73,6 +105,11 @@ data:
 
         server {
             listen 80; # listen on all interfaces
+    
+            location / {    
+                root /usr/share/nginx/html;
+                index index.html;
+            }
 
             location /onetimesecret {
                 proxy_pass http://onetimesecret;
