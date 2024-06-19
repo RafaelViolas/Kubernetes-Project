@@ -17,6 +17,14 @@ spec:
         image: rafaelviola/nginx-proxy:latest
         ports:
         - containerPort: 80
+        volumeMounts:
+          - name: nginx-config-volume
+            mountPath: /etc/nginx/nginx.conf
+            subPath: nginx.conf
+      volumes:
+        - name: nginx-config-volume
+          configMap:
+            name: nginx-config
 
 ---
 apiVersion: v1
@@ -34,3 +42,49 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nginx-config
+data:
+  nginx.conf: |
+    http {
+        upstream onetimesecret {
+            server onetimesecret.default.svc.cluster.local:80;
+        }
+
+        upstream wikils {
+            server wikils.default.svc.cluster.local:80;
+        }
+
+        upstream plik {
+            server plik.default.svc.cluster.local:80;
+        }
+
+        upstream ejbca {
+            server ejbca.default.svc.cluster.local:80;
+        }
+
+        server {
+            listen 80; # listen on all interfaces
+
+            location /onetimesecret {
+                proxy_pass http://onetimesecret;
+            }
+
+            location /wikils {
+                proxy_pass http://wikils;
+            }
+
+            location /plik {
+                proxy_pass http://plik;
+            }
+
+            location /ejbca {
+                proxy_pass http://ejbca;
+            }
+        }
+    }
