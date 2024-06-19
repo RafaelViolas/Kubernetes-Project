@@ -65,7 +65,7 @@ data:
         }
 
         upstream ejbca {
-            server ejbca.default.svc.cluster.local:80;
+            server ejbcace.default.svc.cluster.local:80;
         }
 
         server {
@@ -84,7 +84,7 @@ data:
             }
 
             location /ejbca {
-                proxy_pass http://ejbca;
+                proxy_pass http://ejbcace;
             }
         }
     }
