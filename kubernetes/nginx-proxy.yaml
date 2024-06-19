@@ -24,7 +24,7 @@ kind: Service
 metadata:
   name: nginx-proxy
   annotations:
-    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb" # or "elb" for a classic load balancer
     service.beta.kubernetes.io/aws-load-balancer-arn: "arn:aws:elasticloadbalancing:us-east-1:899738441980:loadbalancer/net/ae529de1553534e7c91bb44580a68567/72fd2e4d8f41c34a"
 spec:
   selector:
@@ -34,4 +34,3 @@ spec:
       port: 80
       targetPort: 80
   type: LoadBalancer
-
