@@ -73,7 +73,8 @@ data:
     <button onclick="window.location.href='/ejbcace';">EJBCA-CE</button>
     </body>
     </html>
-
+  favicon.ico: |
+    <base64-encoded-favicon-contet>
 
 ---
 
