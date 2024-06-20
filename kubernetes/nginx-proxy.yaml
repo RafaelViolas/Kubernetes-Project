@@ -99,7 +99,7 @@ data:
             server plik.default.svc.cluster.local:80;
         }
 
-        upstream ejbca {
+        upstream ejbcace {
             server ejbcace.default.svc.cluster.local:80;
         }
 
